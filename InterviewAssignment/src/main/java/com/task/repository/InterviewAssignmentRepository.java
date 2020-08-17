@@ -13,11 +13,11 @@ import com.task.entity.InterviewAssignmentEntity;
 @Repository
 public interface InterviewAssignmentRepository extends JpaRepository<InterviewAssignmentEntity, Long> {
 
-	public List<InterviewAssignmentEntity> findByNameLike(String qu);
+	public List<InterviewAssignmentEntity> findByNameLike(String value);
 
-	public List<InterviewAssignmentEntity> findByDescriptionLike(String qu);
+	public List<InterviewAssignmentEntity> findByDescriptionLike(String value);
 
-	public List<InterviewAssignmentEntity> findByStatus(String qu);
+	public List<InterviewAssignmentEntity> findByStatus(String value);
 
 	@Query(value = "select *from task where created_at>=:date", nativeQuery = true)
 	public List<InterviewAssignmentEntity> findByCreatedAt(@Param("date") Date date);

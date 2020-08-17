@@ -1,4 +1,4 @@
-package com.task.common;
+package com.task.common.exception;
 
 import java.util.List;
 import lombok.Getter;

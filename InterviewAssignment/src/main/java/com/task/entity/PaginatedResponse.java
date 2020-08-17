@@ -13,7 +13,6 @@ import lombok.Setter;
 public class PaginatedResponse {
 
 	public PaginatedResponse() {
-
 	}
 
 	public PaginatedResponse(Integer page, Integer page_size, Integer total_elements, List<Result> tasks) {

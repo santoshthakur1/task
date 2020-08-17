@@ -3,7 +3,7 @@ package com.task.entity;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.task.constants.IAConstants;
+import com.task.common.constants.IAConstants;
 
 import lombok.Data;
 

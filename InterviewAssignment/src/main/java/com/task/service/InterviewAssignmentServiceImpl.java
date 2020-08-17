@@ -13,11 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.task.common.SearchNotSupported;
-import com.task.common.SortingNotSupported;
-import com.task.common.StatusNotValid;
-import com.task.constants.IAConstants;
-import com.task.constants.Status;
+import com.task.common.constants.IAConstants;
+import com.task.common.constants.Status;
+import com.task.common.exception.InvalidFIlter;
+import com.task.common.exception.SearchNotSupported;
+import com.task.common.exception.SortingNotSupported;
+import com.task.common.exception.StatusNotValid;
 import com.task.entity.ErrorMessage;
 import com.task.entity.InterviewAssignmentEntity;
 import com.task.entity.InterviewAssignmentRequest;
@@ -66,22 +67,22 @@ public class InterviewAssignmentServiceImpl implements InterviewAssignmentServic
 		PaginatedResponse paginatedResponse = new PaginatedResponse(0, 50, 0, new ArrayList<>());
 
 		if (!query.contains(":")) {
-			throw new RuntimeException("Invalid FIlter");
+			throw new InvalidFIlter(IAConstants.INVALID_FILTER);
 		}
 		String name = query.substring(0, query.indexOf(':'));
-		String qu = query.substring(query.indexOf(':') + 1, query.length());
+		String value = query.substring(query.indexOf(':') + 1, query.length());
 
 		if (!validSortBy.contains(sort_by)) {
 			new SortingNotSupported(IAConstants.SORTING_NOT_SUPPORTED + sort_by);
 		}
 		if ("name".equalsIgnoreCase(name)) {
-			entites = repository.findByNameLike("%" + qu + "%");
+			entites = repository.findByNameLike("%" + value + "%");
 		} else if ("description".equalsIgnoreCase(name)) {
-			entites = repository.findByDescriptionLike("%" + qu + "%");
+			entites = repository.findByDescriptionLike("%" + value + "%");
 		} else if ("status".equalsIgnoreCase(name)) {
-			entites = repository.findByStatus(qu);
+			entites = repository.findByStatus(value);
 		} else if ("created_after".equalsIgnoreCase(name)) {
-			Date date = Date.valueOf(qu);
+			Date date = Date.valueOf(value);
 			entites = repository.findByCreatedAt(date);
 		} else {
 			new SearchNotSupported(IAConstants.SEARCHING_NOT_SUPPORTED + query);
@@ -140,10 +141,10 @@ public class InterviewAssignmentServiceImpl implements InterviewAssignmentServic
 				res.setId(entity.get_id());
 				res.setStatus(entity.getStatus());
 				res.setResult(result);
-			} catch (Exception e) {
-				message.setMessage(e.getMessage());
+			} catch (Exception ex) {
+				message.setMessage(ex.getMessage());
 				res.setErrorMessage(message);
-				e.printStackTrace();
+				ex.printStackTrace();
 			}
 			response.add(res);
 		});

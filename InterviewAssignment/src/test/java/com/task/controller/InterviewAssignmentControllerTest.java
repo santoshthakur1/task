@@ -15,7 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
-import com.task.constants.Status;
+import com.task.common.constants.Status;
 import com.task.entity.InterviewAssignmentRequest;
 import com.task.entity.InterviewAssignmentResponse;
 import com.task.entity.PaginatedResponse;
